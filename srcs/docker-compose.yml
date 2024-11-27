@@ -1,0 +1,8 @@
+services:
+  nginx: #Nom des containers. (correspond a run --name)
+    build: ./requirements/nginx/ #Permet de build l'image si elle n'existe pas.
+    image: nginx:42 #Nom de l'image a run ou rename l'image constuite par build.
+    ports: #(-p 443:443)
+      - 443:443
+    #depends_on: Permet de controler l'ordre du lancement des containers.
+      #- "wordpress"
