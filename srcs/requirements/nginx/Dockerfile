@@ -5,7 +5,7 @@ FROM debian:bullseye
 WORKDIR /
 
 #On update les packages et on install nginx.
-RUN apt update
+RUN apt update -y
 RUN apt install -y nginx
 #RUN apt install OpenSSL -y #Semble optionnel car il est deja possible d'utiliser la CLI openssl , peut etre inclu dans l'installation du package nginx ?
 
