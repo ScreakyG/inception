@@ -13,7 +13,7 @@ RUN     rm -rf /var/lib/mysql/*
 #Copie le fichier de config de MariaDB ainsi que le script pour initialiser la database.
 COPY    conf/my.cnf /etc/mysql/my.cnf
 COPY    conf/config.sh /tmp/config.sh
+
 RUN     chmod +x /tmp/config.sh
 
-# ENTRYPOINT ["/tmp/config.sh"]
-# CMD ["mysqld", "--user=mysql"]
+CMD ["/tmp/config.sh"]

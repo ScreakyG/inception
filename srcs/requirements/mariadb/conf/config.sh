@@ -12,24 +12,28 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     echo "[INFO] Initiliazing MariaDB directories.."
     #Script qui initialise les tables systemes de MariaDB, --user=mysql pour specifier que les dossiers appartienent a cet user, --datadir pour l'endroit ou stocker les databases.
     mysql_install_db --user=mysql --datadir=/var/lib/mysql
-fi
 
-# ###### Tests dans la database. #######
+    ###### Creation de l'USER et de la DATABASE
 
-# # -- Connexion en tant que root
-# mysql -u root
+    mysqld --user=mysql --bootstrap << EOF
+
+USE mysql;
+FLUSH PRIVILEGES;
 
 # # -- Sécurisation de l'utilisateur root
-# ALTER USER 'root'@'localhost' IDENTIFIED BY 'votre_mot_de_passe_root';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
 
-# # -- Création de la base de données WordPress
-# CREATE DATABASE wordpress;
+# Création de la base de données WordPress
+CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
 
-# # -- Création de l'utilisateur WordPress avec accès depuis n'importe où ('%')
-# CREATE USER 'wp_user'@'%' IDENTIFIED BY 'votre_mot_de_passe_wp';
+# Création de l'utilisateur WordPress
+CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
+GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
 
-# # -- Attribution des permissions à l'utilisateur WordPress
-# GRANT ALL PRIVILEGES ON wordpress.* TO 'wp_user'@'%';
+FLUSH PRIVILEGES;
+EOF
+else
+    echo "[INFO] MariaDB is already configured."
+fi
 
-# # -- Application des changements
-# FLUSH PRIVILEGES;
+exec mysqld --user=mysql
