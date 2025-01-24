@@ -10,6 +10,7 @@ YML_PATH = ./srcs/docker-compose.yml
 
 # NGINX_DOCKERFILE_PATH = ./srcs/requirements/nginx
 NGINX_IMAGE_NAME = nginx:42
+MARIADB_IMAGE_NAME = mariadb:42
 
 # all: build_images up
 
@@ -33,7 +34,8 @@ fclean:
 
 	docker-compose -f $(YML_PATH) down
 	docker rmi $(NGINX_IMAGE_NAME)
-	
+	docker rmi $(MARIADB_IMAGE_NAME)
+
 	docker image prune -f
 	docker network prune -f
 
