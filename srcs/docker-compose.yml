@@ -8,6 +8,8 @@ services:
     #depends_on: Permet de controler l'ordre du lancement des containers.
       #- "wordpress"
     restart: on-failure
+    networks:
+      - inception
 
   mariadb:
     container_name: mariadb
@@ -15,3 +17,19 @@ services:
     image: mariadb:42
     env_file : .env
     restart: on-failure
+    networks:
+      - inception
+
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    image: wordpress:42
+    env_file: .env
+    restart: on-failure
+    networks:
+      - inception
+
+networks:
+  inception:
+    name: inception
+    driver: bridge
