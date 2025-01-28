@@ -4,6 +4,11 @@ GRA = \033[37m
 BLU = \033[34m
 EOC = \033[0m
 
+LOGIN = fgonzale
+DATA_PATH = /home/$(LOGIN)/data
+ENV = LOGIN=$(LOGIN) DATA_PATH=$(DATA_PATH)
+
+
 
 YML_PATH = ./srcs/docker-compose.yml
 
@@ -17,24 +22,31 @@ WORDPRESS_IMAGE_NAME = wordpress:42
 
 all: up
 
-up:
+up: configure_login
 	@echo "$(GRE)[Starting services.. 🟢]$(EOC)"
-	docker-compose -f $(YML_PATH) up
+	$(ENV) docker-compose -f $(YML_PATH) up --build
 
 down:
 	@echo "$(GRE)[Stopping services.. 🔴]$(EOC)"
-	docker-compose -f $(YML_PATH) down
+	$(ENV) docker-compose -f $(YML_PATH) down
 
-fclean:
-	@echo "$(RED)[Cleaning up.. 🗑️ ]$(EOC)"
-	@echo "$(GRE)[Stopping services.. 🔴]$(EOC)"
+configure_login:
+	sudo mkdir -p $(DATA_PATH)/wordpress-data
+	sudo mkdir -p $(DATA_PATH)/mariadb-data
 
-	docker-compose -f $(YML_PATH) down
+fclean: down
+	@echo "$(RED)[Cleaning .. 🗑️ ]$(EOC)"
+
 	docker rmi $(NGINX_IMAGE_NAME)
 	docker rmi $(MARIADB_IMAGE_NAME)
 	docker rmi $(WORDPRESS_IMAGE_NAME)
 
 	docker image prune -f
 	docker network prune -f
+	docker volume prune -f
+
+	docker volume rm srcs_wordpress
+	# docker volume rm srcs_mariadb
+	sudo rm -rf $(DATA_PATH)
 
 re: fclean all

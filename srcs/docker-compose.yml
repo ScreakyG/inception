@@ -10,6 +10,8 @@ services:
     restart: on-failure
     networks:
       - inception
+    volumes:
+      - wordpress:/var/www/html
 
   mariadb:
     container_name: mariadb
@@ -28,8 +30,25 @@ services:
     restart: on-failure
     networks:
       - inception
+    volumes:
+      - wordpress:/var/www/html
 
 networks:
   inception:
     name: inception
     driver: bridge
+
+volumes:
+  wordpress:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '${DATA_PATH}/wordpress-data'
+
+  # mariadb:
+  #   driver: local
+  #   driver_opts:
+  #     type: 'none'
+  #     o: 'bind'
+  #     device: '${DATA_PATH}/mariadb-data'
