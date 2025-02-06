@@ -16,4 +16,4 @@ COPY    conf/config.sh /tmp/config.sh
 
 RUN     chmod +x /tmp/config.sh
 
-CMD ["/tmp/config.sh"]
+CMD ["sh", "/tmp/config.sh"]

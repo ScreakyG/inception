@@ -39,5 +39,5 @@ rm -rf index.nginx-debian.html
 ##############################
 
 
-#Lance php-fpm en foreground (pas de daemonisation).
-/usr/sbin/php-fpm7.4 -F
+#Lance php-fpm en foreground (pas de daemonisation). exec va passer le processus en PID1 (verifier avec ps aux)
+exec /usr/sbin/php-fpm7.4 -F
