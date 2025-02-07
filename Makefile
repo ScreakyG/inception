@@ -4,9 +4,10 @@ GRA = \033[37m
 BLU = \033[34m
 EOC = \033[0m
 
-LOGIN = fgonzale
+LOGIN = login
+DOMAIN_NAME = $(LOGIN).42.fr
 DATA_PATH = /home/$(LOGIN)/data
-ENV = LOGIN=$(LOGIN) DATA_PATH=$(DATA_PATH)
+ENV = LOGIN=$(LOGIN) DATA_PATH=$(DATA_PATH) DOMAIN_NAME=$(DOMAIN_NAME)
 
 
 
@@ -28,7 +29,14 @@ down:
 	@echo "$(GRE)[Stopping services.. 🔴]$(EOC)"
 	$(ENV) docker-compose -f $(YML_PATH) down
 
+start:
+	$(ENV) docker-compose -f $(YML_PATH) start
+
+stop:
+	$(ENV) docker-compose -f $(YML_PATH) stop
+
 configure_login:
+	$(ENV) ./config_host.sh
 	sudo mkdir -p $(DATA_PATH)/wordpress-data
 	sudo mkdir -p $(DATA_PATH)/mariadb-data
 
@@ -47,5 +55,6 @@ fclean: down
 	docker volume rm srcs_mariadb
 
 	sudo rm -rf $(DATA_PATH)
+	$(ENV) ./reset_env.sh
 
 re: fclean all
