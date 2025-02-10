@@ -4,7 +4,7 @@ GRA = \033[37m
 BLU = \033[34m
 EOC = \033[0m
 
-LOGIN = login
+LOGIN = fgonzale
 DOMAIN_NAME = $(LOGIN).42.fr
 DATA_PATH = /home/$(LOGIN)/data
 ENV = LOGIN=$(LOGIN) DATA_PATH=$(DATA_PATH) DOMAIN_NAME=$(DOMAIN_NAME)
