@@ -29,6 +29,9 @@ then
     wp config create --dbhost=mariadb --dbname=$WP_DATABASE --dbuser=$WP_USER --dbpass=$WP_PASSWORD --allow-root #Connection a la Database MYSQL
     wp core install --url=https://$DOMAIN_NAME --title=$DOMAIN_NAME --admin_user=$WP_ADMIN_NAME --admin_password=$WP_ADMIN_PASS --admin_email=$WP_ADMIN_MAIL --allow-root #Installation de wordpress
     wp user create $WP_USER2_NAME  $WP_USER2_MAIL --user_pass=$WP_USER2_PASS --allow-root #Creation d'un deuxieme user pour le sujet.
+
+    wp theme install twentysixteen --activate --allow-root
+    chown -R www-data:www-data /var/www/html
 else
     echo "[INFO] Wordpress is already installed"
 fi
