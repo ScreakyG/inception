@@ -55,7 +55,7 @@ fclean: down
 	docker volume rm srcs_mariadb
 
 	sudo rm -rf $(DATA_PATH)
-	
+
 	# $(ENV) ./reset_env.sh
 
 re: fclean all

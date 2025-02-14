@@ -22,7 +22,8 @@ COPY conf/nginx.conf /etc/nginx/
 
 # On veut s'assurer que nginx aura les droits pour aller chercher dans les dossiers les pages.
 # RUN chmod 755 /var/www/html
-# RUN chown -R www-data:www-data /var/www/html #Defini l'utilisateur de nginx comme proprietaire du dossier.
+#Defini l'utilisateur de nginx (et de wordpress) comme proprietaire du dossier.
+RUN chown -R www-data:www-data /var/www/html
 
 #NGINX utilise le port 80 alors on l'expose, sert principalement a informe l'utilisateur du dockerfile que notre app dans le container utilise le port 80.
 # EXPOSE 80
