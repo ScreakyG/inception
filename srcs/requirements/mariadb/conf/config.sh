@@ -15,7 +15,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
 
     ###### Creation de l'USER et de la DATABASE
 
-    mysqld --user=mysql --bootstrap << EOF
+    mysqld --user=mysql --bootstrap << EOF #en mode boostrap mysql ne gere pas les connexions clients , sert principalement a excuter directement les requetes et init le service.
 
 USE mysql;
 FLUSH PRIVILEGES;
